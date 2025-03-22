@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : Character
 {
-     private string charName;
+    [SerializeField] private string charName;
 
     public string CharName
     {
