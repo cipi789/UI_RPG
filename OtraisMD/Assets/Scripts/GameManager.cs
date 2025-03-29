@@ -1,42 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public Player player;
-    public Enemy enemy;
-    [SerializeField]
-    private TMP_Text playerName, playerHealth,
-        enemyName, enemyHealth;
+    public Player player; // Reference to the player
+    public GameObject winPanel; // Reference to the win panel (GameObject)
+    public GameObject losePanel; // Reference to the lose panel (GameObject)
+    public GameObject UIpanel;
 
     void Start()
     {
-        int playerDamage = player.Attack();
-        enemy.TakeDamage(playerDamage);
+        // Ensure the win and lose panels are hidden at the start
+        if (winPanel != null)
+        {
+            winPanel.SetActive(false);
+        }
 
-        int enemyDamage= enemy.Attack();
-        player.TakeDamage(enemyDamage);
-     
-       
+        if (losePanel != null)
+        {
+            losePanel.SetActive(false);
+        }
     }
 
-  public void DoRound()
+    // Call this method when the player dies
+    public void HandlePlayerDeath()
     {
-        //int playerDamage = player.Attack();
-        //enemy.TakeDamage(playerDamage);
-        enemy.TakeDamage(player.ActiveWeapon);
-        int enemyDamage = enemy.Attack();
-        player.TakeDamage(enemyDamage);
-        RefreshUI();
+        // Show the lose panel
+        if (losePanel != null)
+        {
+            losePanel.SetActive(true);
+        }
 
+        // Hide the win panel if it's visible
+        if (winPanel != null)
+        {
+            winPanel.SetActive(false);
+        }
+
+        Debug.Log("Game Over! You lost!");
     }
-    private void RefreshUI()
+
+    private void WinGame()
     {
-        playerName.text = player.CharName;
-        enemyName.text = enemy.name;
-        playerHealth.text = "health: " + player.health.ToString();
-        enemyHealth.text = "health: " + enemy.health.ToString();
+        // Show the win panel
+        if (winPanel != null)
+        {
+            winPanel.SetActive(true);
+            UIpanel.SetActive(false);
+        }
+
+        // Hide the lose panel if it's visible
+        if (losePanel != null)
+        {
+            losePanel.SetActive(false);
+        }
+
+        Debug.Log("You won the game!");
     }
 }
